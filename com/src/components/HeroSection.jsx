@@ -153,7 +153,7 @@ const HeroSection = () => {
               and branding for every stage of your business.
             </p>
             
-            <div className="flex justify-center md:justify-start">
+            <div className="flex justify-center md:justify-start space-x-4">
               <button 
                 onClick={scrollToContact}
                 className="px-6 sm:px-8 py-3 sm:py-4 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-sm sm:text-base"
