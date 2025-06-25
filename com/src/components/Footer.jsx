@@ -65,7 +65,7 @@ const Footer = memo(() => {
             </p>
             <div className="flex space-x-4" aria-label="Social media links">
               <a 
-                href="https://facebook.com/yourcompany" 
+                // href="https://facebook.com/yourcompany" 
                 className="text-gray-400 hover:text-gray-600 transition-colors" 
                 aria-label="Visit our Facebook page"
                 rel="noopener noreferrer"
@@ -77,7 +77,7 @@ const Footer = memo(() => {
                 </svg>
               </a>
               <a 
-                href="https://instagram.com/yourcompany" 
+                // href="https://instagram.com/yourcompany" 
                 className="text-gray-400 hover:text-gray-600 transition-colors" 
                 aria-label="Visit our Instagram page"
                 rel="noopener noreferrer"
@@ -89,7 +89,7 @@ const Footer = memo(() => {
                 </svg>
               </a>
               <a 
-                href="https://twitter.com/yourcompany" 
+                // href="https://twitter.com/yourcompany" 
                 className="text-gray-400 hover:text-gray-600 transition-colors" 
                 aria-label="Visit our Twitter page"
                 rel="noopener noreferrer"
@@ -101,7 +101,7 @@ const Footer = memo(() => {
                 </svg>
               </a>
               <a 
-                href="https://linkedin.com/company/yourcompany" 
+                // href="https://linkedin.com/company/yourcompany" 
                 className="text-gray-400 hover:text-gray-600 transition-colors" 
                 aria-label="Visit our LinkedIn page"
                 rel="noopener noreferrer"
