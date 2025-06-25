@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import heroImage from '../assets/heroimg.png';
+import heroImage from '../assets/hero.png';
 // Note: After running the optimizeImages.js script, import these optimized versions
 // You'll need to create these files by running the script first
 const heroImageOptimized = heroImage; // Update path after optimization

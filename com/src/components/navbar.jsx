@@ -63,7 +63,7 @@ const Navbar = () => {
                   <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6.5A1.5,1.5 0 0,0 10.5,8A1.5,1.5 0 0,0 12,9.5A1.5,1.5 0 0,0 13.5,8A1.5,1.5 0 0,0 12,6.5M12,7.5A0.5,0.5 0 0,1 12.5,8A0.5,0.5 0 0,1 12,8.5A0.5,0.5 0 0,1 11.5,8A0.5,0.5 0 0,1 12,7.5"/>
                 </svg>
               </div>
-              <span className="font-semibold text-base sm:text-lg text-black">Company</span>
+              <span className="font-semibold text-base sm:text-lg text-black">TriadForge</span>
             </a>
           </div>
           

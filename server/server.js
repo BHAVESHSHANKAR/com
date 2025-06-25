@@ -2,16 +2,24 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
+const Razorpay = require('razorpay');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Initialize Razorpay with test keys
+const razorpay = new Razorpay({
+  key_id: 'rzp_test_meV9t8O4qJOHIb',
+  key_secret: 'EyRWLyrcaJIlTns9FWZgAq8S'
+});
+
 // Middleware
 app.use(cors({
-    origin: 'https://com-clients.vercel.app',
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
+  origin: ['https://com-clients.vercel.app', 'http://localhost:5173', 'http://localhost:3000', '*'],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 })); // Enable CORS for all routes
 app.use(bodyParser.json()); // Parse JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
@@ -49,7 +57,7 @@ app.post('/api/contact', async (req, res) => {
     // Configure email content - email comes FROM user TO company
     const mailOptions = {
       from: `"${name}" <${email}>`, // Make it appear to come from the user
-      to: 'kallurbhavesh@gmail.com', // Your company email as recipient
+      to: 'contact.triadforge@gmail.com', // Your company email as recipient
       replyTo: email, // When you reply, it goes to the user
       subject: `New Project Inquiry from ${name}`,
       html: `
@@ -76,6 +84,95 @@ app.post('/api/contact', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Something went wrong. Please try again later.'
+    });
+  }
+});
+
+// Razorpay payment route
+app.post('/api/create-order', async (req, res) => {
+  console.log('Create order request received:', req.body);
+  try {
+    const { amount, currency = 'INR', receipt = 'petfinder_receipt', notes = {} } = req.body;
+    
+    // Validate amount
+    if (!amount) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide an amount'
+      });
+    }
+    
+    // Create order
+    const options = {
+      amount: amount * 100, // amount in smallest currency unit (paise)
+      currency,
+      receipt,
+      notes: {
+        ...notes,
+        purpose: notes.purpose || 'Petfinder Donation'
+      }
+    };
+    
+    console.log('Creating Razorpay order with options:', options);
+    const order = await razorpay.orders.create(options);
+    console.log('Order created:', order);
+    
+    res.status(200).json({
+      success: true,
+      order
+    });
+  } catch (error) {
+    console.error('Error creating Razorpay order:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong creating the payment order',
+      error: error.message
+    });
+  }
+});
+
+// Verify Razorpay payment
+app.post('/api/verify-payment', (req, res) => {
+  console.log('Payment verification request received:', req.body);
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    
+    // Validate parameters
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing payment verification parameters'
+      });
+    }
+    
+    // Create signature verification string
+    const shasum = crypto.createHmac('sha256', razorpay.key_secret);
+    shasum.update(`${razorpay_order_id}|${razorpay_payment_id}`);
+    const digest = shasum.digest('hex');
+    
+    console.log('Signature verification:', {
+      generated: digest,
+      received: razorpay_signature,
+      match: digest === razorpay_signature
+    });
+    
+    // Verify signature
+    if (digest === razorpay_signature) {
+      res.status(200).json({
+        success: true,
+        message: 'Payment verified successfully'
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: 'Payment verification failed'
+      });
+    }
+  } catch (error) {
+    console.error('Error verifying payment:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong verifying the payment'
     });
   }
 });

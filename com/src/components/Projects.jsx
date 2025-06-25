@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import PaymentButton from './PaymentButton';
 
 const Projects = () => {
   const [activeProject, setActiveProject] = useState(0);
@@ -73,6 +74,23 @@ const Projects = () => {
     },
     {
       id: 6,
+      name: 'RFID monitoring System',
+      description: 'This Project Ensures that Students are Authenticated while boarding and leaving school bus and provides real time updates to their parents for enhance security.',
+      technologies: ['React', 'Firebase', 'IoT', 'ESP32'],
+      projectUrl: 'https://rfid-bus-monitoring.vercel.app/login',
+      icon: (
+        // <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        //   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+        // </svg>
+        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 7h10v10H7V7z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h18v18H3V3z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 9h6v6H9V9z" />
+  </svg>
+      )
+    },
+    {
+      id: 7,
       name: 'Antenna Positioning',
       description: 'A smart IoT system for optimizing antenna positioning in real-time, improving signal strength and coverage through automated adjustments and monitoring.',
       technologies: ['React', 'Firebase', 'IoT', 'ESP32'],
@@ -224,7 +242,7 @@ const Projects = () => {
                       </div>
                     </div>
                     
-                    <div className="mt-auto">
+                    <div className="mt-auto flex flex-col md:flex-row gap-4">
                       <button 
                         onClick={() => openProjectWebsite(project.projectUrl)}
                         className="inline-flex items-center px-5 py-2 md:px-6 md:py-3 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors"
@@ -234,6 +252,11 @@ const Projects = () => {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
                       </button>
+                      
+                      {/* Add PaymentButton only for Petfinder project */}
+                      {/* {project.name === 'Petfinder' && (
+                        <PaymentButton amount={999} name="Petfinder Donation" />
+                      )} */}
                     </div>
                   </div>
                 </div>
